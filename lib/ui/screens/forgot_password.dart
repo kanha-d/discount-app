@@ -32,7 +32,7 @@ class ForgotPassword extends StatelessWidget {
               ),
               const CustomTextfield(
                 obscureText: false,
-                hintText: 'Enter Email',
+                hintText: 'Email / Mobile',
                 icon: Icons.alternate_email,
               ),
               GestureDetector(

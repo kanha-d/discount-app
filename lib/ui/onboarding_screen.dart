@@ -53,17 +53,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             controller: _pageController,
             children: [
               createPage(
-                image: 'assets/images/plant-one.png',
+                image: 'assets/images/shop1.png',
                 title: Constants.titleOne,
                 description: Constants.descriptionOne,
               ),
               createPage(
-                image: 'assets/images/plant-two.png',
+                image: 'assets/images/shop2.png',
                 title: Constants.titleTwo,
                 description: Constants.descriptionTwo,
               ),
               createPage(
-                image: 'assets/images/plant-three.png',
+                image: 'assets/images/shop3.png',
                 title: Constants.titleThree,
                 description: Constants.descriptionThree,
               ),
@@ -165,11 +165,11 @@ class createPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: 350,
+            height: 450,
             child: Image.asset(image),
           ),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           Text(
             title,

@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Plant {
   final int plantId;
   final int price;
@@ -25,7 +27,6 @@ class Plant {
         required this.isFavorated,
         required this.decription,
         required this.isSelected});
-
   //List of Plants data
   static List<Plant> plantList = [
     Plant(
@@ -37,7 +38,7 @@ class Plant {
         rating: 4.5,
         humidity: 34,
         temperature: '23 - 34',
-        imageURL: 'assets/images/plant-one.png',
+        imageURL: 'assets/images/o-one.png',
         isFavorated: true,
         decription:
         'This plant is one of the best plant. It grows in most of the regions in the world and can survive'
@@ -164,7 +165,6 @@ class Plant {
             'even the harshest weather condition.',
         isSelected: false),
   ];
-
   //Get the favorated items
   static List<Plant> getFavoritedPlants(){
     List<Plant> _travelList = Plant.plantList;

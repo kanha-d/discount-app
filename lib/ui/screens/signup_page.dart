@@ -33,17 +33,17 @@ class SignUp extends StatelessWidget {
               ),
               const CustomTextfield(
                 obscureText: false,
-                hintText: 'Enter Email',
+                hintText: 'Email',
                 icon: Icons.alternate_email,
               ),
               const CustomTextfield(
                 obscureText: false,
-                hintText: 'Enter Full name',
+                hintText: 'Full name',
                 icon: Icons.person,
               ),
               const CustomTextfield(
                 obscureText: true,
-                hintText: 'Enter Password',
+                hintText: 'Password',
                 icon: Icons.lock,
               ),
               const SizedBox(

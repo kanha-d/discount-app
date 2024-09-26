@@ -1,5 +1,6 @@
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:discountnearme/models/coupons.dart';
 import 'package:flutter/material.dart';
 import 'package:discountnearme/constants.dart';
 import 'package:discountnearme/models/plants.dart';
@@ -10,6 +11,8 @@ import 'package:discountnearme/ui/screens/home_page.dart';
 import 'package:discountnearme/ui/screens/profile_page.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../models/stores.dart';
+
 class RootPage extends StatefulWidget {
   const RootPage({Key? key}) : super(key: key);
 
@@ -18,8 +21,8 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  List<Plant> favorites = [];
-  List<Plant> myCart = [];
+  List<Store> favorites = [];
+  List<Coupons> coupons = [];
 
   int _bottomNavIndex = 0;
 
@@ -27,8 +30,8 @@ class _RootPageState extends State<RootPage> {
   List<Widget> _widgetOptions(){
     return [
       const HomePage(),
-      FavoritePage(favoritedPlants: favorites,),
-      CartPage(addedToCartPlants: myCart,),
+      FavoritePage(favoritedStores: favorites,),
+      CartPage(couponsList: coupons,),
       const ProfilePage(),
     ];
   }
@@ -37,7 +40,7 @@ class _RootPageState extends State<RootPage> {
   List<IconData> iconList = [
     Icons.home,
     Icons.favorite,
-    Icons.shopping_cart,
+    Icons.discount,
     Icons.person,
   ];
 
@@ -45,7 +48,7 @@ class _RootPageState extends State<RootPage> {
   List<String> titleList = [
     'Home',
     'Favorite',
-    'Cart',
+    'Coupons',
     'Profile',
   ];
 
@@ -75,7 +78,7 @@ class _RootPageState extends State<RootPage> {
         onPressed: (){
           Navigator.push(context, PageTransition(child: const ScanPage(), type: PageTransitionType.bottomToTop));
         },
-        child: Image.asset('assets/images/code-scan-two.png', height: 30.0,),
+        child: Image.asset('assets/images/shopping-bag.png', height: 30.0,),
         backgroundColor: Constants.primaryColor,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -90,11 +93,9 @@ class _RootPageState extends State<RootPage> {
         onTap: (index){
           setState(() {
             _bottomNavIndex = index;
-            final List<Plant> favoritedPlants = Plant.getFavoritedPlants();
-            final List<Plant> addedToCartPlants = Plant.addedToCartPlants();
-
+            final List<Store> favoritedPlants = Store.getFavStores();
             favorites = favoritedPlants;
-            myCart = addedToCartPlants.toSet().toList();
+            coupons = Coupons.couponsList;
           });
         }
       ),

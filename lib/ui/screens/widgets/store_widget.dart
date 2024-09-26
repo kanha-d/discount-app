@@ -6,8 +6,8 @@ import 'package:page_transition/page_transition.dart';
 
 import '../../../models/stores.dart';
 
-class PlantWidget extends StatelessWidget {
-  const PlantWidget({
+class StoreWidget extends StatelessWidget {
+  const StoreWidget({
     Key? key, required this.index, required this.storeList,
   }) : super(key: key);
 
@@ -62,20 +62,28 @@ class PlantWidget extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  bottom: 5,
-                  left: 100,
+                  top: 10,
+                  left: 110,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(storeList[index].desc),
                       Text(
                         storeList[index].store,
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w400,
                           fontSize: 18,
-                          color: Constants.blackColor,
+                          color: Constants.blackC,
                         ),
                       ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Text(storeList[index].desc,
+                        style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Constants.greyColor,
+                      ),),
                     ],
                   ),
                 ),

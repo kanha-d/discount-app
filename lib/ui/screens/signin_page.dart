@@ -34,12 +34,12 @@ class SignIn extends StatelessWidget {
               ),
               const CustomTextfield(
                 obscureText: false,
-                hintText: 'Enter Email',
+                hintText: 'Email / Mobile',
                 icon: Icons.alternate_email,
               ),
               const CustomTextfield(
                 obscureText: true,
-                hintText: 'Enter Password',
+                hintText: 'Password',
                 icon: Icons.lock,
               ),
               const SizedBox(

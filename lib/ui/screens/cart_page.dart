@@ -1,12 +1,12 @@
-import 'package:discountnearme/constants.dart';
+import 'package:discountnearme/models/coupons.dart';
+import 'package:discountnearme/ui/screens/widgets/coupon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:discountnearme/constants.dart';
-import 'package:discountnearme/models/plants.dart';
-import 'package:discountnearme/ui/screens/widgets/plant_widget.dart';
+
 
 class CartPage extends StatefulWidget {
-  final List<Plant> addedToCartPlants;
-  const CartPage({Key? key, required this.addedToCartPlants}) : super(key: key);
+  final List<Coupons> couponsList;
+  const CartPage({Key? key, required this.couponsList}) : super(key: key);
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -17,7 +17,7 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: widget.addedToCartPlants.isEmpty
+      body: widget.couponsList.isEmpty
           ? Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -25,13 +25,13 @@ class _CartPageState extends State<CartPage> {
           children: [
             SizedBox(
               height: 100,
-              child: Image.asset('assets/images/add-cart.png'),
+              child: Image.asset('assets/images/favorited.png'),
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              'Your Cart is Empty',
+              'Your favorited Plants',
               style: TextStyle(
                 color: Constants.primaryColor,
                 fontWeight: FontWeight.w300,
@@ -43,43 +43,23 @@ class _CartPageState extends State<CartPage> {
       )
           : Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 30),
-        height: size.height,
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                  itemCount: widget.addedToCartPlants.length,
-                  scrollDirection: Axis.vertical,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return PlantWidget(
-                        index: index, plantList: widget.addedToCartPlants);
-                  }),
-            ),
-            Column(
-              children: [
-                const Divider(thickness: 1.0,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text('Totals',style: TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.w300,
-                    ),
-                    ),
-                      Text(r'$65', style: TextStyle(
-                        fontSize: 24.0,
-                        color: Constants.primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
+        child:GridView.builder(
+          itemCount: widget.couponsList.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // Number of items in a row
+            crossAxisSpacing: 10, // Horizontal space between items
+            mainAxisSpacing: 10, // Vertical space between items
+            childAspectRatio: 0.75, // Aspect ratio for each grid item
+          ),
+          physics: const BouncingScrollPhysics(), // Scroll behavior
+          itemBuilder: (BuildContext context, int index) {
+            return CouponWidget(
+              index: index,
+              couponList: widget.couponsList,
+            );
+          },
+        )
       ),
     );
-  }
+    }
 }

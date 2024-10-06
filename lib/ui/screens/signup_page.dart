@@ -154,7 +154,6 @@ class _SignUpState extends State<SignUp> {
 
 
   void SignupFun() async {
-
     if(_mobileController.text.isEmpty) {
       Fluttertoast.showToast(
           msg: "Enter Mobile Number!",

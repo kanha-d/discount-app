@@ -5,9 +5,10 @@ class CustomTextfield extends StatelessWidget {
   final IconData icon;
   final bool obscureText;
   final String hintText;
-
+  final TextEditingController controller; // Add a controller
   const CustomTextfield({
     Key? key, required this.icon, required this.obscureText, required this.hintText,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -16,6 +17,7 @@ class CustomTextfield extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextField(
+          controller: controller, // Attach the controller here
           obscureText: obscureText,
           style: TextStyle(
             color: Constants.blackColor,

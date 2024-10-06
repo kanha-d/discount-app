@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:discountnearme/constants.dart';
-import 'package:discountnearme/ui/root_page.dart';
 import 'package:discountnearme/ui/screens/forgot_password.dart';
 import 'package:discountnearme/ui/screens/signup_page.dart';
 import 'package:discountnearme/ui/screens/widgets/custom_textfield.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 
-class SignIn extends StatelessWidget {
+import '../../API/api_service.dart';
+import '../root_page.dart';
+
+class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
+
+  @override
+  State<SignIn> createState() => _SignInState();
+}
+
+
+class _SignInState extends State<SignIn> {
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -32,26 +44,24 @@ class SignIn extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              const CustomTextfield(
+              CustomTextfield(
                 obscureText: false,
                 hintText: 'Email / Mobile',
                 icon: Icons.alternate_email,
+                controller: _emailController,
               ),
-              const CustomTextfield(
+              CustomTextfield(
                 obscureText: true,
                 hintText: 'Password',
                 icon: Icons.lock,
+                controller: _passwordController,
               ),
               const SizedBox(
                 height: 10,
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          child: const RootPage(),
-                          type: PageTransitionType.bottomToTop));
+                 LoginFun();
                 },
                 child: Container(
                   width: size.width,
@@ -178,4 +188,71 @@ class SignIn extends StatelessWidget {
       ),
     );
   }
+
+
+  void LoginFun() async {
+
+    if(_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "Enter valid Email or Password!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red.shade300,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+      return;
+    }
+
+    String response = await APIService.loginUser(_emailController.text, _passwordController.text);
+    var status = response.split(',');
+
+    if(status[0]=="1") {
+
+      Fluttertoast.showToast(
+          msg: "Successful Login!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
+      Navigator.pushReplacement(
+          context,
+          PageTransition(
+              child: const RootPage(),
+              type: PageTransitionType.bottomToTop));
+
+    } else if(status[0]=="4") {
+      Fluttertoast.showToast(
+          msg: "Incorrect Email or Password!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+    else
+    {
+      Fluttertoast.showToast(
+          msg: "Your Account has been Deleted by you, Contact Jobaajlearnings!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+
+  }
+
+
+
+
 }

@@ -176,7 +176,7 @@ class createPage extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Constants.primaryColor,
-              fontSize: 30,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -187,7 +187,7 @@ class createPage extends StatelessWidget {
             description,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 15,
               fontWeight: FontWeight.w400,
               color: Colors.grey,
             ),

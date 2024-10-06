@@ -1,13 +1,26 @@
+import 'package:discountnearme/ui/screens/otp_page.dart';
 import 'package:flutter/material.dart';
 import 'package:discountnearme/constants.dart';
 import 'package:discountnearme/ui/root_page.dart';
 import 'package:discountnearme/ui/screens/widgets/custom_textfield.dart';
-import 'package:discountnearme/ui/screens/signin_page.dart';
+import 'package:discountnearme/ui/screens/SignUp_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 
-class SignUp extends StatelessWidget {
+import '../../API/api_service.dart';
+
+class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
+  @override
+  State<SignUp> createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+
+  TextEditingController _mobileController = TextEditingController();
+
+  
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -22,7 +35,7 @@ class SignUp extends StatelessWidget {
             children: [
               Image.asset('assets/images/signup.png'),
               const Text(
-                'Sign Up',
+                'Sign up',
                 style: TextStyle(
                   fontSize: 35.0,
                   fontWeight: FontWeight.w700,
@@ -31,26 +44,19 @@ class SignUp extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              const CustomTextfield(
+              CustomTextfield(
+                controller: _mobileController,
                 obscureText: false,
-                hintText: 'Email',
-                icon: Icons.alternate_email,
-              ),
-              const CustomTextfield(
-                obscureText: false,
-                hintText: 'Full name',
-                icon: Icons.person,
-              ),
-              const CustomTextfield(
-                obscureText: true,
-                hintText: 'Password',
-                icon: Icons.lock,
+                hintText: 'Mobile',
+                icon: Icons.mobile_friendly_sharp,
               ),
               const SizedBox(
                 height: 10,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  SignupFun();
+                },
                 child: Container(
                   width: size.width,
                   decoration: BoxDecoration(
@@ -61,7 +67,7 @@ class SignUp extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: const Center(
                     child: Text(
-                      'Sign Up',
+                      'Next',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18.0,
@@ -117,7 +123,7 @@ class SignUp extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       PageTransition(
-                          child: const SignIn(),
+                          child: const SignUp(),
                           type: PageTransitionType.bottomToTop));
                 },
                 child: Center(
@@ -145,4 +151,67 @@ class SignUp extends StatelessWidget {
       ),
     );
   }
+
+
+  void SignupFun() async {
+
+    if(_mobileController.text.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "Enter Mobile Number!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red.shade300,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+      return;
+    }
+    String response = await APIService.signupUser(_mobileController.text);
+    var status = response.split(',');
+
+    if(status[0]=="1") {
+      Fluttertoast.showToast(
+          msg: "OTP SENT!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+      Navigator.pushReplacement(
+          context,
+          PageTransition(
+              child: const OTPPage(),
+              type: PageTransitionType.bottomToTop));
+
+    } else if(status[0]=="3") {
+      Fluttertoast.showToast(
+          msg: "Mobile already exist!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+    else
+    {
+      Fluttertoast.showToast(
+          msg: "Your Account has been Deleted by you, Contact Jobaajlearnings!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+
+  }
+
+
+
 }
